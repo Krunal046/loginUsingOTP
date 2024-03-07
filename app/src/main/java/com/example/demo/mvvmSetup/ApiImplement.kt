@@ -1,6 +1,7 @@
 package com.example.demo.mvvmSetup
 
 import com.example.demo.model.addAddress.AddAddressModel
+import com.example.demo.model.addAddress.SendAddressModel
 import com.example.demo.model.addressList.AddressListModel
 import com.example.demo.model.login.LoginModel
 import com.example.demo.model.login.LoginSendModel
@@ -30,9 +31,9 @@ class ApiImplement(val apiInterface: ApiInterface):ApiServiceRepo {
 
     override fun addAddress(
         callBack: onApiResponse<AddAddressModel>,
-        hashMap: HashMap<String, String>
+        sendAddressModel: SendAddressModel
     ) {
-        commonResponse(callBack,apiInterface.addressAdd(hashMap))
+        commonResponse(callBack,apiInterface.addressAdd(sendAddressModel))
     }
 
     override fun getAddressList(callBack: onApiResponse<AddressListModel>) {

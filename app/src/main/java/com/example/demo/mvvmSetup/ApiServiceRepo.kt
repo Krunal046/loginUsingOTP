@@ -1,6 +1,7 @@
 package com.example.demo.mvvmSetup
 
 import com.example.demo.model.addAddress.AddAddressModel
+import com.example.demo.model.addAddress.SendAddressModel
 import com.example.demo.model.addressList.AddressListModel
 import com.example.demo.model.login.LoginModel
 import com.example.demo.model.login.LoginSendModel
@@ -14,7 +15,7 @@ interface ApiServiceRepo {
 
     fun otpCheck(callBack:onApiResponse<OtpCheckModel>,    otpSendModel: OtpSendModel)
 
-    fun addAddress(callBack:onApiResponse<AddAddressModel>, hashMap: HashMap<String,String>)
+    fun addAddress(callBack:onApiResponse<AddAddressModel>,  sendAddressModel: SendAddressModel)
 
     fun getAddressList(callBack: onApiResponse<AddressListModel>)
 

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="@dimen/_8sdp"
+            android:layout_margin="@dimen/_16sdp"
+            android:padding="@dimen/_16sdp">
+
+            <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Address = "
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_address_des"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:layout_marginStart="@dimen/_8sdp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_address"
+                app:layout_constraintStart_toEndOf="@+id/tv_address"
+                app:layout_constraintTop_toTopOf="@+id/tv_address" />
+
+            <TextView
+                android:id="@+id/tv_pin_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pin Code = "
+                android:textStyle="bold"
+
+                android:layout_marginTop="@dimen/_16sdp"
+                app:layout_constraintStart_toStartOf="@+id/tv_address"
+                app:layout_constraintTop_toBottomOf="@+id/tv_address" />
+
+            <TextView
+                android:id="@+id/tv_pin_code_des"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:layout_marginStart="@dimen/_8sdp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_pin_code"
+                app:layout_constraintStart_toEndOf="@+id/tv_pin_code"
+                app:layout_constraintTop_toTopOf="@+id/tv_pin_code" />
+
+            <TextView
+                android:id="@+id/tv_locality"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Locality = "
+                android:textStyle="bold"
+
+                android:layout_marginTop="@dimen/_16sdp"
+                app:layout_constraintStart_toStartOf="@+id/tv_pin_code"
+                app:layout_constraintTop_toBottomOf="@+id/tv_pin_code" />
+
+            <TextView
+                android:id="@+id/tv_locality_des"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:layout_marginStart="@dimen/_8sdp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_locality"
+                app:layout_constraintStart_toEndOf="@+id/tv_locality"
+                app:layout_constraintTop_toTopOf="@+id/tv_locality" />
+
+            <TextView
+                android:id="@+id/tv_google_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Google Address = "
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/_16sdp"
+                app:layout_constraintStart_toStartOf="@+id/tv_locality"
+                app:layout_constraintTop_toBottomOf="@+id/tv_locality" />
+
+            <TextView
+                android:id="@+id/tv_google_address_des"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:layout_marginStart="@dimen/_8sdp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_google_address"
+                app:layout_constraintStart_toEndOf="@+id/tv_google_address"
+                app:layout_constraintTop_toTopOf="@+id/tv_google_address" />
+
+            <TextView
+                android:id="@+id/tv_zone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Zone = "
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/_16sdp"
+                app:layout_constraintStart_toStartOf="@+id/tv_google_address"
+                app:layout_constraintTop_toBottomOf="@+id/tv_google_address" />
+
+            <TextView
+                android:id="@+id/tv_zone_des"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:layout_marginStart="@dimen/_8sdp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_zone"
+                app:layout_constraintStart_toEndOf="@+id/tv_zone"
+                app:layout_constraintTop_toTopOf="@+id/tv_zone" />
+
+            <TextView
+                android:id="@+id/tv_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="State = "
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/_16sdp"
+                app:layout_constraintStart_toStartOf="@+id/tv_zone"
+                app:layout_constraintTop_toBottomOf="@+id/tv_zone" />
+
+            <TextView
+                android:id="@+id/tv_state_des"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:layout_marginStart="@dimen/_8sdp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_state"
+                app:layout_constraintStart_toEndOf="@+id/tv_state"
+                app:layout_constraintTop_toTopOf="@+id/tv_state" />
+
+            <TextView
+                android:id="@+id/tv_city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="City = "
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/_16sdp"
+                app:layout_constraintStart_toStartOf="@+id/tv_state"
+                app:layout_constraintTop_toBottomOf="@+id/tv_state" />
+
+            <TextView
+                android:id="@+id/tv_city_des"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:layout_marginStart="@dimen/_8sdp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_city"
+                app:layout_constraintStart_toEndOf="@+id/tv_city"
+                app:layout_constraintTop_toTopOf="@+id/tv_city" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

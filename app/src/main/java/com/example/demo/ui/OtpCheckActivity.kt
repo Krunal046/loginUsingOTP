@@ -52,13 +52,13 @@ class OtpCheckActivity : AppCompatActivity() {
 
         binding.btnOtpCheck.setOnClickListener {
             val enteredOtp =
-                binding.otpBox1.toString() + binding.otpBox2.toString() + binding.otpBox3.toString() + binding.otpBox4.toString()
+                binding.otpBox1.text.toString() + binding.otpBox2.text.toString() + binding.otpBox3.text.toString() + binding.otpBox4.text.toString()
             enteredOtp.trim()
             if (enteredOtp.isNullOrBlank() && enteredOtp.length < 4) {
                 Toast.makeText(this@OtpCheckActivity, "please enter otp ", Toast.LENGTH_SHORT)
                     .show()
             } else {
-                val otpSendModel:OtpSendModel = OtpSendModel(phone_no = mobileNo!!.toInt(), otp = enteredOtp.toInt())
+                val otpSendModel:OtpSendModel = OtpSendModel(phone_no = mobileNo!!.toLong(), otp = enteredOtp.toInt())
                 vm.otpCheck(otpSendModel)
             }
         }

@@ -7,6 +7,8 @@ import com.example.demo.model.login.LoginModel
 import com.example.demo.model.login.LoginSendModel
 import com.example.demo.model.otpVerify.OtpCheckModel
 import com.example.demo.model.otpVerify.OtpSendModel
+import com.example.demo.model.productDetails.ProductDeatilModel
+import com.example.demo.model.productList.ProductListModel
 import com.example.demo.utility.onApiResponse
 
 interface ApiServiceRepo {
@@ -15,8 +17,12 @@ interface ApiServiceRepo {
 
     fun otpCheck(callBack:onApiResponse<OtpCheckModel>,    otpSendModel: OtpSendModel)
 
-    fun addAddress(callBack:onApiResponse<AddAddressModel>,  sendAddressModel: SendAddressModel)
+    fun addAddress(callBack:onApiResponse<AddAddressModel>,  sendAddressModel: SendAddressModel, bearerToken: String)
 
-    fun getAddressList(callBack: onApiResponse<AddressListModel>)
+    fun getAddressList(callBack: onApiResponse<AddressListModel>, bearerToken: String)
+
+    fun getProductList(callBack: onApiResponse<ProductListModel>)
+
+    fun getProductDetail(callBack: onApiResponse<ProductDeatilModel>, id:String)
 
 }

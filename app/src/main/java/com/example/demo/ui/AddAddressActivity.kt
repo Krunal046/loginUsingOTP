@@ -1,5 +1,8 @@
 package com.example.demo.ui
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -15,18 +18,36 @@ import com.example.demo.mvvmSetup.ApiImplement
 import com.example.demo.mvvmSetup.ViewModelFactory
 import com.example.demo.retrofitSetup.ApiClient
 import com.example.demo.retrofitSetup.ApiInterface
+import com.example.demo.roomSetup.AddressRepo
+import com.example.demo.roomSetup.AddressViewModelFactory
+import com.example.demo.roomSetup.AppDatabase
+import com.example.demo.roomSetup.LocalAddress
+import com.example.demo.roomSetup.Product
+import com.example.demo.roomSetup.ProductRepository
+import com.example.demo.roomSetup.ProductViewModelFactory
+import com.example.demo.utility.PreferencesManager
 import com.example.demo.utility.Status
 import com.example.demo.viewModel.AddAddressVM
+import com.example.demo.viewModel.AddressLocalVM
+import com.example.demo.viewModel.ProductLoaclVM
 
 class AddAddressActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddAddressBinding
     private lateinit var vm: AddAddressVM
+    private lateinit var localVM:AddressLocalVM
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddAddressBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val addressDao = AppDatabase.getInstance(applicationContext).addressDao()
+        val addressRepo = AddressRepo(addressDao)
+        localVM = ViewModelProvider(
+            this,
+            AddressViewModelFactory(addressRepo)
+        )[AddressLocalVM::class.java]
 
         vm = ViewModelProvider(
             this,
@@ -53,7 +74,20 @@ class AddAddressActivity : AppCompatActivity() {
                     Address_type = addressType
                 )
 
-                vm.addAddress(sendAddressModel)
+                val token =  "Bearer "+PreferencesManager(this@AddAddressActivity).getAuthToken().toString()
+
+                if (isInternetConnected(this@AddAddressActivity)){
+                    vm.addAddress(sendAddressModel,token)
+                } else{
+                    val localAddress:LocalAddress = LocalAddress(
+                        address = address,
+                        pincode = pinCode,
+                        isUploaded = false,
+                        Address_type = addressType
+
+                    )
+                    localVM.insert(localAddress)
+                }
 
                 finish()
 
@@ -81,4 +115,12 @@ class AddAddressActivity : AppCompatActivity() {
         }
 
     }
+
+    private fun isInternetConnected(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo: NetworkInfo? = connectivityManager.activeNetworkInfo
+        return networkInfo != null && networkInfo.isConnected
+    }
+
 }

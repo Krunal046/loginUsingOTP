@@ -12,7 +12,7 @@ class GetAddressVM(val repository: ApiServiceRepo?): ViewModel() {
 
     val obrAddressList = MutableLiveData<Resource<AddressListModel>>()
 
-    fun getAddressList(){
+    fun getAddressList(bearerToken: String){
         repository?.getAddressList(object : onApiResponse<AddressListModel> {
             override fun onSuccess(body: AddressListModel?) {
                 obrAddressList.postValue(Resource<AddressListModel>(Status.SUCCESS, body, null))
@@ -30,6 +30,6 @@ class GetAddressVM(val repository: ApiServiceRepo?): ViewModel() {
                 obrAddressList.postValue(Resource<AddressListModel>(Status.FAILED, null, msg.toString()))
             }
 
-        })
+        },bearerToken)
     }
 }

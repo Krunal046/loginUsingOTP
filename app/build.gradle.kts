@@ -1,6 +1,8 @@
 plugins {
-    alias(libs.plugins.androidApplication)
-    alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id ("kotlin-kapt")
+
 }
 
 android {
@@ -50,7 +52,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
     //sdp
     implementation("com.intuit.sdp:sdp-android:1.1.0")
     //ssp
@@ -68,5 +69,9 @@ dependencies {
     implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.4.0")
     //Glide
     implementation ("com.github.bumptech.glide:glide:4.16.0")
+    //Room
+    implementation ("androidx.room:room-runtime:2.4.3")
+    annotationProcessor( "android.arch.persistence.room:compiler:1.0.0")
+    kapt ("androidx.room:room-compiler:2.4.3")
 
 }

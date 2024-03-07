@@ -68,6 +68,9 @@ class OtpCheckActivity : AppCompatActivity() {
                 Status.SUCCESS -> {
                     Log.e("Status", "SUCCESS")
                     PreferencesManager(this@OtpCheckActivity).saveAuthToken(it.data?.token?.access!!)
+                    val intent = Intent(this@OtpCheckActivity, AddressActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(intent)
                 }
 
                 Status.ERROR -> {

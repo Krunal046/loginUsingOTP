@@ -13,7 +13,7 @@ class AddAddressVM(val repository: ApiServiceRepo?): ViewModel() {
 
     val obrAddAddress = MutableLiveData<Resource<AddAddressModel>>()
 
-    fun addAddress(sendAddressModel: SendAddressModel){
+    fun addAddress(sendAddressModel: SendAddressModel, bearerToken: String){
         repository?.addAddress(object :onApiResponse<AddAddressModel>{
             override fun onSuccess(body: AddAddressModel?) {
                 obrAddAddress.postValue(Resource<AddAddressModel>(Status.SUCCESS, body, null))
@@ -30,6 +30,6 @@ class AddAddressVM(val repository: ApiServiceRepo?): ViewModel() {
             override fun onFailed(msg: String) {
                 obrAddAddress.postValue(Resource<AddAddressModel>(Status.FAILED, null,  msg.toString()))
             }
-        }, sendAddressModel)
+        }, sendAddressModel, bearerToken)
     }
 }

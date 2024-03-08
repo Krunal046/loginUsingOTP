@@ -138,7 +138,7 @@ class AddressActivity : AppCompatActivity() {
 
                 val loaclList = it
 
-                if (loaclList.isNotEmpty()){
+                if (loaclList.isNotEmpty() && isInternetConnected(this@AddressActivity)){
                     val token =  "Bearer "+PreferencesManager(this@AddressActivity).getAuthToken().toString()
                     loaclList.forEach{
                         if (!it.isUploaded){

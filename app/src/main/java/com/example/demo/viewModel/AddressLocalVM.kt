@@ -25,7 +25,7 @@ class AddressLocalVM(private val addressRepo: AddressRepo): ViewModel()  {
         addressRepo.insertAddress(localAddress)
     }
 
-    fun deleteAddress(localAddress: LocalAddress) = addressRepo.removeAddress(localAddress)
+     fun deleteAddress(localAddress: LocalAddress) = viewModelScope.launch {addressRepo.removeAddress(localAddress)}
 
        fun getList() = addressRepo.getAllAddress()
 

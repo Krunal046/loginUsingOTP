@@ -1,5 +1,8 @@
 package com.example.demo.viewModel
 
+import android.app.Activity
+import android.content.Context
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,10 +29,8 @@ class ProductLoaclVM(private val productRepository: ProductRepository):ViewModel
 
     fun getList() = productRepository.getAllProducts()
 
-    fun insertWithOutDuplicate(list:List<Product>){
+    fun insertWithOutDuplicate(list:List<Product>, existingProduct:List<Product> ){
         viewModelScope.launch {
-
-            val existingProduct = products.value
 
             if (!existingProduct.isNullOrEmpty()){
                 val newListWithoutDuplicates = list.filter { newProduct ->
@@ -39,6 +40,8 @@ class ProductLoaclVM(private val productRepository: ProductRepository):ViewModel
                 if (newListWithoutDuplicates.isNotEmpty()) {
                     productRepository.insertProductsWithConflictStrategy(newListWithoutDuplicates)
                 }
+            }else{
+                productRepository.insertProductsWithConflictStrategy(list)
             }
 
         }

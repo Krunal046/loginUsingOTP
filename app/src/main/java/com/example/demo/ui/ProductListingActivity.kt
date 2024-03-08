@@ -22,6 +22,7 @@ import com.example.demo.mvvmSetup.ViewModelFactory
 import com.example.demo.retrofitSetup.ApiClient
 import com.example.demo.retrofitSetup.ApiInterface
 import com.example.demo.roomSetup.AppDatabase
+import com.example.demo.roomSetup.LocalAddress
 import com.example.demo.roomSetup.Product
 import com.example.demo.roomSetup.ProductRepository
 import com.example.demo.roomSetup.ProductViewModelFactory
@@ -31,6 +32,7 @@ import com.example.demo.viewModel.ProductListVM
 import com.example.demo.viewModel.ProductLoaclVM
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
@@ -41,6 +43,7 @@ class ProductListingActivity : AppCompatActivity() {
     private lateinit var productAdapter: ProductAdapter
     private var productList: ArrayList<ProductListModelItem> = ArrayList()
     private lateinit var localVM: ProductLoaclVM
+    private var productLocalList:List<Product> = emptyList()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,6 +57,8 @@ class ProductListingActivity : AppCompatActivity() {
             this,
             ProductViewModelFactory(productRepository)
         )[ProductLoaclVM::class.java]
+
+        getDataFromLocal()
 
         vm = ViewModelProvider(
             this,
@@ -93,7 +98,7 @@ class ProductListingActivity : AppCompatActivity() {
                         )
                     }
 
-                    localVM.insertWithOutDuplicate(product)
+                    localVM.insertWithOutDuplicate(product, productLocalList)
                 }
 
                 Status.ERROR -> {
@@ -113,10 +118,10 @@ class ProductListingActivity : AppCompatActivity() {
     }
 
     fun showData(){
-        CoroutineScope(Dispatchers.Main).launch {
+       val job =  CoroutineScope(Dispatchers.Main).async {
             localVM.getList().observe(this@ProductListingActivity){
 
-                val productLocalList = it
+                productLocalList = it
                 productLocalList.forEach {
                     val rating:Rating = Rating(
                         it.count,
@@ -141,6 +146,13 @@ class ProductListingActivity : AppCompatActivity() {
         }
     }
 
+    fun getDataFromLocal(){
+       CoroutineScope(Dispatchers.Main).async {
+            localVM.getList().observe(this@ProductListingActivity){
+                productLocalList = it
+            }
+        }
+    }
 
     private fun isInternetConnected(context: Context): Boolean {
         val connectivityManager =

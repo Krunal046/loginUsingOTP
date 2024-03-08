@@ -1,6 +1,9 @@
 package com.example.demo.ui
 
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
@@ -27,7 +30,9 @@ import com.example.demo.viewModel.AddAddressVM
 import com.example.demo.viewModel.AddressLocalVM
 import com.example.demo.viewModel.GetAddressVM
 import com.example.demo.viewModel.LoginVM
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class AddressActivity : AppCompatActivity() {
@@ -56,21 +61,8 @@ class AddressActivity : AppCompatActivity() {
             ViewModelFactory(ApiImplement(ApiClient.client.create(ApiInterface::class.java)))
         )[AddAddressVM::class.java]
 
-        val loaclList = localVM.getList()
-
-        if (loaclList.isNotEmpty()){
-            val token =  "Bearer "+PreferencesManager(this@AddressActivity).getAuthToken().toString()
-            loaclList.forEach{
-                if (!it.isUploaded){
-                    val sendAddressModel: SendAddressModel = SendAddressModel(
-                        address = it.address,
-                        pincode = it.pincode,
-                        Address_type = it.Address_type
-                    )
-                    addAddressVM.addAddress(sendAddressModel, token)
-                    localVM.deleteAddress(it)
-                }
-            }
+        if (isInternetConnected(this@AddressActivity)){
+            uploadData()
         }
 
         vm = ViewModelProvider(
@@ -138,6 +130,38 @@ class AddressActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    fun uploadData(){
+        CoroutineScope(Dispatchers.Main).launch {
+            localVM.getList().observe(this@AddressActivity){
+
+                val loaclList = it
+
+                if (loaclList.isNotEmpty()){
+                    val token =  "Bearer "+PreferencesManager(this@AddressActivity).getAuthToken().toString()
+                    loaclList.forEach{
+                        if (!it.isUploaded){
+                            val sendAddressModel: SendAddressModel = SendAddressModel(
+                                address = it.address,
+                                pincode = it.pincode,
+                                Address_type = it.Address_type
+                            )
+                            addAddressVM.addAddress(sendAddressModel, token)
+                            localVM.deleteAddress(it)
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+    private fun isInternetConnected(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo: NetworkInfo? = connectivityManager.activeNetworkInfo
+        return networkInfo != null && networkInfo.isConnected
     }
 
     override fun onResume() {

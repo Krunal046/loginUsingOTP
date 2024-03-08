@@ -29,6 +29,10 @@ import com.example.demo.utility.Status
 import com.example.demo.viewModel.GetAddressVM
 import com.example.demo.viewModel.ProductListVM
 import com.example.demo.viewModel.ProductLoaclVM
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 class ProductListingActivity : AppCompatActivity() {
 
@@ -59,27 +63,7 @@ class ProductListingActivity : AppCompatActivity() {
         if (isInternetConnected(this@ProductListingActivity)) {
             vm.getProductList()
         } else {
-            val productLocalList = localVM.getList()
-            productLocalList.forEach {
-                val rating:Rating = Rating(
-                    it.count,
-                    it.rate
-                )
-                val productListModelItem: ProductListModelItem = ProductListModelItem(
-                    category = it.category,
-                            description = it.description,
-                            id = it.id,
-                            image = it.image,
-                            price = it.price,
-                            rating = rating,
-                            title = it.title
-                )
-                productList.add(productListModelItem)
-                if (productAdapter != null) {
-                    productAdapter.updateList(productList)
-                }
-            }
-
+            showData()
         }
 
         productAdapter = ProductAdapter(this@ProductListingActivity, productList)
@@ -127,6 +111,36 @@ class ProductListingActivity : AppCompatActivity() {
         }
 
     }
+
+    fun showData(){
+        CoroutineScope(Dispatchers.Main).launch {
+            localVM.getList().observe(this@ProductListingActivity){
+
+                val productLocalList = it
+                productLocalList.forEach {
+                    val rating:Rating = Rating(
+                        it.count,
+                        it.rate
+                    )
+                    val productListModelItem: ProductListModelItem = ProductListModelItem(
+                        category = it.category,
+                        description = it.description,
+                        id = it.id,
+                        image = it.image,
+                        price = it.price,
+                        rating = rating,
+                        title = it.title
+                    )
+                    productList.add(productListModelItem)
+                    if (productAdapter != null) {
+                        productAdapter.updateList(productList)
+                    }
+                }
+
+            }
+        }
+    }
+
 
     private fun isInternetConnected(context: Context): Boolean {
         val connectivityManager =

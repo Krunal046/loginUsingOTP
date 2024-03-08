@@ -24,10 +24,7 @@ class ProductLoaclVM(private val productRepository: ProductRepository):ViewModel
         productRepository.insertProduct(product)
     }
 
-    fun getList(): List<Product> {
-        val list = productRepository.getAllProducts().value
-        return list?: emptyList()
-    }
+    fun getList() = productRepository.getAllProducts()
 
     fun insertWithOutDuplicate(list:List<Product>){
         viewModelScope.launch {
